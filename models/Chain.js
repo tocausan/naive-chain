@@ -1,12 +1,15 @@
-let _ = require('lodash');
+let _ = require('lodash'),
+    moment = require('moment');
 
 module.exports = class Chain {
 
     constructor(data) {
+        this.date = moment.utc().format();
+        this.name = data && data.name ? data.name : '';
         this.blocks = data.blocks ? data.blocks : [];
     };
 
-    isValid = function () {
+    isValid() {
         this.blocks.forEach((block, index) => {
             if (index > 0) {
                 let isValid = block.isValid(blocks[index - 1]);
@@ -21,7 +24,7 @@ module.exports = class Chain {
         return true;
     };
 
-    addNewBlock(block) {
+    addBlock(block) {
         return this.blocks.push(block);
     };
 
@@ -29,8 +32,8 @@ module.exports = class Chain {
         return _.last(this.blocks);
     };
 
-    replace = function (blocks) {
-        if (Chain.isValidChain(blocks) && blocks.length > this.blocks.length) {
+    replace(blocks) {
+        if (this.isValid(blocks) && blocks.length > this.blocks.length) {
             console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
             this.blocks = blocks;
             //broadcast(responseLatestMsg());

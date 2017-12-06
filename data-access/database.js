@@ -31,8 +31,8 @@ module.exports = {
                 if (err) reject(err);
                 db.collection(collection).findOne(filter).then(result => {
                     resolve(result);
+                    db.close();
                 });
-                db.close();
             });
         });
     },
@@ -43,8 +43,8 @@ module.exports = {
                 if (err) reject(err);
                 db.collection(collection).findOneUpdate(filter, update).then(result => {
                     resolve(result);
+                    db.close();
                 });
-                db.close();
             });
         });
     },
@@ -55,8 +55,8 @@ module.exports = {
                 if (err) reject(err);
                 db.collection(collection).findOneAndDelete(filter).then(result => {
                     resolve(result);
+                    db.close();
                 });
-                db.close();
             });
         });
     },
@@ -67,25 +67,26 @@ module.exports = {
                 if (err) reject(err);
                 db.collection(collection).insertOne(data).then(result => {
                     resolve(result);
+                    db.close();
                 });
-                db.close();
             });
         });
     },
 
-    insertOneIfNotExist: function (collection, data) {
+    insertOneIfNotExist: function (collection, filter, data) {
         return new Promise((resolve, reject) => {
             mongoDb.MongoClient.connect(databaseConfig.path, (err, db) => {
                 if (err) reject(err);
-
-                 db.collection(collection).findOne({}).then(findResult => {
+                db.collection(collection).findOne(filter).then(findResult => {
                     if (!findResult) {
+                        //console.log(findResult);
                         this.insertOne(collection, data).then(insertResult => {
-                            resolve(insertResult);
-                        })
+                            resolve(data);
+                        });
                     }
+                    resolve();
+                    db.close();
                 });
-                db.close();
             });
         });
     },
@@ -96,8 +97,8 @@ module.exports = {
                 if (err) reject(err);
                 db.collection(collection).insertMany(data).then(result => {
                     resolve(result);
+                    db.close();
                 });
-                db.close();
             });
         });
     }

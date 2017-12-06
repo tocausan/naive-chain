@@ -1,12 +1,14 @@
 let express = require('express'),
-    blockchainRoutes = require('./blockchain');
+    chainsRoutes = require('./chains');
 
 
 module.exports = express.Router()
 
-    .get('/', blockchainRoutes.init)
-    .get('/blocks', blockchainRoutes.getAllBlocks)
-    .get('/block/:hash', blockchainRoutes.getBlockByHash)
+    .get('/', chainsRoutes.init)
+    .get('/chains', chainsRoutes.getChains)
+    .get('/chain/:name', chainsRoutes.getChain)
+    .get('/chain/:name/blocks', chainsRoutes.getChainBlocks)
+    .get('/chain/:name/block/:hash', chainsRoutes.getChainBlock)
 
-    .post('/blocks', blockchainRoutes.addBlock)
+    .post('/chains', chainsRoutes.addBlock)
 
