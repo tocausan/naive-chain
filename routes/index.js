@@ -1,4 +1,5 @@
 let express = require('express'),
+    errorsRoutes = require('./errors'),
     chainsRoutes = require('./chains');
 
 
@@ -11,4 +12,7 @@ module.exports = express.Router()
     .get('/chain/:name/block/:hash', chainsRoutes.getChainBlock)
 
     .post('/chains', chainsRoutes.addBlock)
+
+    .use(errorsRoutes.error404)
+    .use(errorsRoutes.errorHandler)
 
