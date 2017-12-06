@@ -3,16 +3,29 @@ let blockchainServices = require('../services/blockchain');
 module.exports = {
 
     init : function(req, res){
-        res.json(blockchainServices.initChain());
+        blockchainServices.initChain().then(result => {
+            console.log(JSON.stringify(result, null, 4));
+            res.json(result);
+        });
     },
 
-    getAllChains : function(req, res){
-        res.json(blockchainServices.getAllChains());
+    getAllBlocks : function(req, res){
+        blockchainServices.getAllBlocks().then(result => {
+            console.log(JSON.stringify(result, null, 4));
+            res.json(result);
+        });
     },
 
-    getChainByName: function (req, res) {
-        blockchainServices.getChainByName(req.params.name).then(result => {
-            console.log(result);
+    getBlockByHash: function (req, res) {
+        blockchainServices.getBlockByHash(req.params.hash).then(result => {
+            console.log(JSON.stringify(result, null, 4));
+            res.json(result);
+        });
+    },
+
+    addBlock: function (req, res) {
+        blockchainServices.addBlock(req.body).then(result => {
+            console.log(JSON.stringify(result, null, 4));
             res.json(result);
         });
     }

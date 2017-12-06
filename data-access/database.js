@@ -17,7 +17,6 @@ module.exports = {
             mongoDb.connect(databaseConfig.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).find().toArray((error, result) => {
-                    console.log(result)
                     if (error) reject(error);
                     resolve(result);
                     db.close();

@@ -9,19 +9,16 @@ module.exports = {
         return dataAccessDatabase.insertOneIfNotExist(databaseConfig.collections.chains, genesisBlock);
     },
 
-    getAllChains: function () {
+    getAllBlocks: function () {
         return dataAccessDatabase.findAll(databaseConfig.collections.chains);
     },
 
-    getChainByName: function (name) {
-        return dataAccessDatabase.findOne(databaseConfig.collections.chains, {name: name});
+    getBlockByHash: function (hash) {
+        return dataAccessDatabase.findOne(databaseConfig.collections.chains, {hash: hash});
     },
 
-    generateNextBlock: function (chain, data) {
-        return chain.addNewBlock(new Block({
-            previousBlock: chain.getLatestBlock(),
-            data: data
-        }));
+    addBlock: function (data) {
+        return dataAccessDatabase.insertOne(databaseConfig.collections.chains, data);
     }
 
 };
