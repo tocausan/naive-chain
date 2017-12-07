@@ -11,8 +11,9 @@ module.exports = express.Router()
     .get('/chain/:name/blocks', chainsRoutes.getChainBlocks)
     .get('/chain/:name/block/:hash', chainsRoutes.getChainBlock)
 
-    .post('/chains', chainsRoutes.addBlock)
+    .post('/chains', chainsRoutes.addChain)
+    .post('/chain/:name/blocks', chainsRoutes.addBlock)
 
     .use(errorsRoutes.error404)
-    .use(errorsRoutes.errorHandler)
+    .use(errorsRoutes.errorHandler);
 

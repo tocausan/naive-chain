@@ -1,12 +1,13 @@
 let _ = require('lodash'),
-    moment = require('moment');
+    moment = require('moment'),
+    Block = require('./Block');
 
 module.exports = class Chain {
 
     constructor(data) {
-        this.date = moment.utc().format();
+        this.date = data && data.date ? data.data : moment.utc().format();
         this.name = data && data.name ? data.name : '';
-        this.blocks = data.blocks ? data.blocks : [];
+        this.blocks = data && data.blocks ? data.blocks : [];
     };
 
     isValid() {
@@ -25,7 +26,7 @@ module.exports = class Chain {
     };
 
     addBlock(block) {
-        return this.blocks.push(block);
+        return this.blocks.push(block);;
     };
 
     getLatestBlock() {
