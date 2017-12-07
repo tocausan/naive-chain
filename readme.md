@@ -15,7 +15,7 @@ GET     /chains                     get all chains
 POST    /chains                     create a chain
 GET     /chain/:name                get a chain by name
 GET     /chain/:name/blocks         get all chain's blocks
-POST     /chain/:name/blocks        create/update a chain's block
+POST    /chain/:name/blocks        create/update a chain's block
 GET     /chain/:name/block/:hash    get a chain's block by hash
 ```
 
