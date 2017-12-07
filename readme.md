@@ -25,6 +25,9 @@ GET     /chain/:name/block/:hash    get a chain's block by hash
 git clone [repo] [?name]
 cd [repo's name]
 npm install
+
+# start mongodb services
+
 npm start
 ```
 
