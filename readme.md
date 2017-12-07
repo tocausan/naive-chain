@@ -1,6 +1,6 @@
 # Naive Chain
 
-[![Waffle.io](https://img.shields.io/badge/Status-Development-#C3554B.svg?style:flat)]()
+[![Waffle.io](https://img.shields.io/badge/Status-Development-A44437.svg?style=flat-square)]()
 
 ### Description
 Basic blockchain nodejs implementation.
