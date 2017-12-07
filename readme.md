@@ -23,7 +23,7 @@ GET     /chain/:name/block/:hash    get a chain's block by hash
 ### Setup
 ```bash
 git clone` [repo] [?name]
-cd [name]
+cd [repo's name]
 npm install
 npm start
 ```
