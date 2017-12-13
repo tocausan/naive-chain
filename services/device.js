@@ -26,7 +26,6 @@ module.exports = {
     getDevice(request){
         return new Promise((resolve, reject) => {
             let host = request.connection.localAddress;
-            console.log(host);
             databaseDataAcccess.findOne(config.database.collections.devices, {host: host}).then(result => {
                 resolve(result);
             }, err => {

@@ -16,10 +16,12 @@ module.exports = {
     insertBlock: function (data, secret) {
         return new Promise((resolve, reject) => {
             this.getLastBlock().then(lastBlock => {
+                if(_.isNil(data.author) || _.isNil(secret)) reject('device not initiated');
+                
                 let previousHash = !_.isNil(lastBlock) && !_.isNil(lastBlock.hash) ? lastBlock.hash : '',
                     block = new Block(data)
-                    .setPreviousHash(previousHash)
-                    .encrypt(secret);
+                        .setPreviousHash(previousHash)
+                        .encrypt(secret);
                 dataAccessDatabase.insertOne(blocksCollection, block).then(result => {
                     resolve(result);
                 }, err => {
