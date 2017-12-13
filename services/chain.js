@@ -22,7 +22,7 @@ module.exports = {
                 if (errors.length === 0) {
                     resolve({success: 'The chain isn\'t corrupted'});
                 } else {
-                    reject({error: 'Corrupted block found: ' + errors.toString()});
+                    reject({error: 'Corrupted block found: ' + errors.join(',')});
                 }
             });
         });
