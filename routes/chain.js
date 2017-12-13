@@ -1,6 +1,8 @@
 let errors = require('./errors'),
     chainServices = require('../services/chain'),
-    blockServices = require('../services/block');
+    blockServices = require('../services/block'),
+    deviceServices = require('../services/device'),
+    Block = require('../models/Block');
 
 module.exports = {
 
@@ -11,8 +13,13 @@ module.exports = {
     },
 
     insertBlock: function (req, res) {
-        blockServices.insertBlock(req.body).then(result => {
-            res.json(result);
+        deviceServices.getDevice(req).then(device => {
+            let block = new Block(req.body)
+                .setAuthor(device.publicKey);
+            
+            blockServices.insertBlock(block, device.privateKey).then(result => {
+                res.json(result);
+            }, err => errors.handler(err, req, res));
         }, err => errors.handler(err, req, res));
     },
 

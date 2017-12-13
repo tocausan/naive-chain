@@ -1,4 +1,5 @@
-let config = require('../config'),
+let _ = require('lodash'),
+    config = require('../config'),
     dataAccessDatabase = require('../data-access/database'),
     Block = require('../models/Block');
 
@@ -12,13 +13,13 @@ module.exports = {
         });
     },
 
-    insertBlock: function (data) {
+    insertBlock: function (data, secret) {
         return new Promise((resolve, reject) => {
             this.getLastBlock().then(lastBlock => {
-                // create & encrypt block
-                let block = new Block(data);
-                block.previousHash = lastBlock.hash;
-                block.encrypt(data.password);
+                let previousHash = !_.isNil(lastBlock) && !_.isNil(lastBlock.hash) ? lastBlock.hash : '',
+                    block = new Block(data)
+                    .setPreviousHash(previousHash)
+                    .encrypt(secret);
                 dataAccessDatabase.insertOne(blocksCollection, block).then(result => {
                     resolve(result);
                 }, err => {

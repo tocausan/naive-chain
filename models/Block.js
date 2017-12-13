@@ -13,15 +13,16 @@ module.exports = class Block {
 
     constructor(data) {
         /**
+         * author = data.author || null
          * previousHash = data.previousHash || null
          * hash = encrypted | decrypted content
          *          date = data.date || now.utc
          *          content = data.content || {}
          * **/
-        this.previousHash = !_.isNil(data) && !_.isNil(data.previousHash) ? data.previousHash : null;
+        this.author = !_.isNil(data) && !_.isNil(data.author) ? data.author : '';
+        this.previousHash = !_.isNil(data) && !_.isNil(data.previousHash) ? data.previousHash : '';
         this.hash = !_.isNil(data) && !_.isNil(data.hash) ? data.hash :
         {
-            user: !_.isNil(data) && !_.isNil(data.user) ? data.user : null,
             date: !_.isNil(data) && !_.isNil(data.date) ? data.date : moment.utc().format(),
             content: !_.isNil(data) && !_.isNil(data.content) ? data.content : {}
         };
@@ -29,10 +30,21 @@ module.exports = class Block {
 
     encrypt(password) {
         this.hash = encryptionServices.encrypt(JSON.stringify(this.hash), password);
+        return this;
     };
 
     decrypt(password) {
         this.hash = JSON.parse(encryptionServices.decrypt(this.hash, password));
+        return this;
+    };
+
+    setAuthor(author){
+        this.author = author;
+        return this;
+    };
+
+    setPreviousHash(hash){
+        this.previousHash = hash;
         return this;
     };
 
