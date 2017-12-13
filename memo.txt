@@ -1,0 +1,23 @@
+      #################     * block creation
+      # api interface #     * blocks display
+ ---> #################  
+|
+|
+ ---> ############          * blocks encryption / decryption
+      # services #
+ ---> ############
+|
+|
+ ---> ############          * blocks storage
+      # database #          
+ ---> ############    
+|                      
+|                          
+ ---> #############         * blocks collection
+      # collector #
+ ---> #############
+|
+|
+ ---> ############## 	    * blocks transfer
+      # peerToPeer #        * devices connection
+      ##############

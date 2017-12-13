@@ -1,11 +1,11 @@
 let mongoDb = require('mongodb'),
-    databaseConfig = require('../config/database');
+    config = require('../config');
 
 module.exports = {
 
     isConnected: function () {
         return new Promise((resolve, reject) => {
-            mongoDb.connect(databaseConfig.path, (err, db) => {
+            mongoDb.connect(config.database.path, (err, db) => {
                 if (err) reject(false);
                 resolve(true);
             });
@@ -14,7 +14,7 @@ module.exports = {
 
     findAll: function (collection) {
         return new Promise((resolve, reject) => {
-            mongoDb.connect(databaseConfig.path, (err, db) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).find().toArray((error, result) => {
                     if (error) reject(error);
@@ -29,7 +29,7 @@ module.exports = {
 
     findOne: function (collection, filter) {
         return new Promise((resolve, reject) => {
-            mongoDb.MongoClient.connect(databaseConfig.path, (err, db) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).findOne(filter).then(result => {
                     resolve(result);
@@ -41,9 +41,23 @@ module.exports = {
         });
     },
 
+    findLastOne: function (collection) {
+        return new Promise((resolve, reject) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
+                if (err) reject(err);
+                db.collection(collection).find().limit(1).sort({$natural:-1}).toArray().then(result => {
+                    resolve(result[0]);
+                    db.close();
+                }, error => {
+                    reject(error);
+                });
+            });
+        });
+    },
+
     findOneUpdate: function (collection, filter, update) {
         return new Promise((resolve, reject) => {
-            mongoDb.MongoClient.connect(databaseConfig.path, (err, db) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).findOneAndUpdate(filter, {$set: update}).then(result => {
                     resolve(result);
@@ -57,7 +71,7 @@ module.exports = {
 
     findOneDelete: function (collection, filter) {
         return new Promise((resolve, reject) => {
-            mongoDb.MongoClient.connect(databaseConfig.path, (err, db) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).findOneAndDelete(filter).then(result => {
                     resolve(result);
@@ -71,7 +85,7 @@ module.exports = {
 
     insertOne: function (collection, data) {
         return new Promise((resolve, reject) => {
-            mongoDb.MongoClient.connect(databaseConfig.path, (err, db) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).insertOne(data).then(result => {
                     resolve(result);
@@ -85,7 +99,7 @@ module.exports = {
 
     insertOneIfNotExist: function (collection, filter, data) {
         return new Promise((resolve, reject) => {
-            mongoDb.MongoClient.connect(databaseConfig.path, (err, db) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).findOne(filter).then(findResult => {
                     if (!findResult) {
@@ -106,7 +120,7 @@ module.exports = {
 
     insertMany: function (collection, data) {
         return new Promise((resolve, reject) => {
-            mongoDb.MongoClient.connect(databaseConfig.path, (err, db) => {
+            mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
                 db.collection(collection).insertMany(data).then(result => {
                     resolve(result);

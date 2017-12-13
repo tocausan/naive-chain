@@ -1,45 +1,43 @@
 let _ = require('lodash'),
     crypto = require('crypto'),
     moment = require('moment'),
-    Chain = require('./Chain');
+    config = require('../config'),
+    encryptionServices = require('../services/encryption');
 
-let isNOrU = function (data) {
-    return data === null || data === undefined;
+let calculateHash = function (data) {
+    let hash = crypto.createHmac('sha512', data.blockIndex.toString() + data.chain + data.previousHash);
+    return hash.digest('hex');
 };
 
 module.exports = class Block {
-    constructor(chain, data) {
-        let previousBlock = _.last(chain.blocks);
-        this.blockIndex = !isNOrU(data) && !isNOrU(data.blockIndex) ? data.blockIndex :
-            !isNOrU(previousBlock) ? (parseInt(previousBlock.blockIndex) + 1).toString() : '0'
-        this.date = !isNOrU(data) && !isNOrU(data.date) ? data.date : moment.utc().format();
-        this.chain = !isNOrU(data) && !isNOrU(data.chain) ? data.chain :
-            !isNOrU(chain) && !isNOrU(chain.name) ? chain.name : '';
-        this.content = !isNOrU(data) && !isNOrU(data.content) ? data.content : {};
-        this.previousHash = !isNOrU(data) && !isNOrU(data.previousHash) ? data.previousHash :
-            !isNOrU(chain) && !isNOrU(chain.blocks) && chain.blocks.length > 0 ? _.last(chain.blocks).hash : this.calculateHash();
-        this.hash = !isNOrU(data) && !isNOrU(data.hash) ? data.hash : this.calculateHash();
+
+    constructor(data) {
+        /**
+         * previousHash = data.previousHash || null
+         * hash = encrypted | decrypted content
+         *          date = data.date || now.utc
+         *          content = data.content || {}
+         * **/
+        this.previousHash = !_.isNil(data) && !_.isNil(data.previousHash) ? data.previousHash : null;
+        this.hash = !_.isNil(data) && !_.isNil(data.hash) ? data.hash :
+        {
+            user: !_.isNil(data) && !_.isNil(data.user) ? data.user : null,
+            date: !_.isNil(data) && !_.isNil(data.date) ? data.date : moment.utc().format(),
+            content: !_.isNil(data) && !_.isNil(data.content) ? data.content : {}
+        };
     };
 
-    calculateHash() {
-        let hash = crypto.createHmac('sha512', this.blockIndex + this.date + this.chain + this.content + this.previousHash);
-        return hash.digest('hex');
+    encrypt(password) {
+        this.hash = encryptionServices.encrypt(JSON.stringify(this.hash), password);
     };
 
-    isValid(previousBlock) {
-        if (previousBlock.blockIndex + 1 !== this.blockIndex) {
-            console.log('invalid index');
-            return false;
+    decrypt(password) {
+        this.hash = JSON.parse(encryptionServices.decrypt(this.hash, password));
+        return this;
+    };
 
-        } else if (previousBlock.hash !== this.previousHash) {
-            console.log('invalid previous hash');
-            return false;
-
-        } else if (this.calculateHash() !== this.hash) {
-            console.log('invalid hash: ' + this.calculateHash() + ' != ' + this.hash);
-            return false;
-        }
-        return true;
+    static isValid(block, previousBlock) {
+        return block.previousHash === previousBlock.hash;
     };
 
 };

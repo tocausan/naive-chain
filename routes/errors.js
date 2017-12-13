@@ -1,16 +1,18 @@
+let _ = require('lodash');
+
 module.exports = {
 
-    error404: function (req, res, next) {
+    _404: function (req, res, next) {
         var err = new Error('Not Found');
         err.status = 404;
         next(err);
     },
 
-    errorHandler: function (err, req, res, next) {
+    handler: function (err, req, res, next) {
         return res.json({
-            status: err.status || 500,
-            message: err.message ? err.message : err,
-            stack: err.stack && req.app.get('env') === 'development' ? err.stack : {}
+            status: !_.isNil(err.status) ? err.status : 500,
+            message: !_.isNil(err.message) ? err.message : err,
+            stack: !_.isNil(err.stack) && req.app.get('env') === 'development' ? err.stack : {}
         });
     }
 

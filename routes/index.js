@@ -1,19 +1,39 @@
 let express = require('express'),
-    errorsRoutes = require('./errors'),
-    chainsRoutes = require('./chains');
-
+    errors = require('./errors'),
+    device = require('./device');
+chain = require('./chain');
 
 module.exports = express.Router()
 
-    .get('/', chainsRoutes.init)
-    .get('/chains', chainsRoutes.getChains)
-    .get('/chain/:name', chainsRoutes.getChain)
-    .get('/chain/:name/blocks', chainsRoutes.getChainBlocks)
-    .get('/chain/:name/block/:hash', chainsRoutes.getChainBlock)
+    .get('/', (req, res)=> {
+        res.json({});
+    })
+    .get('/init', device.init)
 
-    .post('/chains', chainsRoutes.addChain)
-    .post('/chain/:name/blocks', chainsRoutes.addBlock)
+    .get('/blocks', chain.getBlocks)
+    .post('/blocks', chain.insertBlock)
+    .get('/block/:hash', chain.getBlock)
+    .post('/validate', chain.validateBlock)
 
-    .use(errorsRoutes.error404)
-    .use(errorsRoutes.errorHandler);
+    .get('/chain/check', chain.checkChain)
+    .get('/chain/devices', chain.getDevices)
 
+    .use(errors._404)
+    .use(errors.handler);
+
+/**
+ - device
+ - - init
+ - - - connect
+ - - - - database
+ - - - - network
+ - chain
+ - - check
+ - - block
+ - - - insert one
+ - - - get one
+ - - - get all
+ - - - validate one
+ - - devices
+ - - - get all
+ **/
