@@ -21,7 +21,7 @@ GET     /blocks             get all blocks
 POST    /blocks             insert a block
 GET     /block/:hash        get a block by hash
 POST    /validate           check block validation
-POST    /chain/check        check chain corruption
+GET     /chain/check        check chain corruption
 GET     /chain/devices      get connected devices
 ```
 
