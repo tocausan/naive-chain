@@ -13,16 +13,16 @@ Once create, blocks can't be modified nor deleted, they are immutable.
 One block contains metadatas and content
 
 
-
 ### API
 ```txt
-GET     /                           init default chain
-GET     /chains                     get all chains
-POST    /chains                     create a chain
-GET     /chain/:name                get a chain by name
-GET     /chain/:name/blocks         get all chain's blocks
-POST    /chain/:name/blocks         create/ a chain's block
-GET     /chain/:name/block/:hash    get a chain's block by hash
+GET     /                   landing
+GET     /init               device initialisation
+GET     /blocks             get all blocks
+POST    /blocks             insert a block
+GET     /block/:hash        get a block by hash
+POST    /validate           check block validation
+POST    /chain/check        check chain corruption
+GET     /chain/devices      get connected devices
 ```
 
 
