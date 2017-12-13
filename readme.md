@@ -2,10 +2,12 @@
 
 [![Waffle.io](https://img.shields.io/badge/Status-Development-A44437.svg?style=flat-square)]()
 
+
 ### Description
 Basic blockchain nodejs implementation.
 this project follows [Lauri Hartikka](https://medium.com/@lhartikk)'s article:
 ["A blockchain in 200 lines of code"](https://medium.com/@lhartikk/a-blockchain-in-200-lines-of-code-963cc1cc0e54)
+
 
 ### Principle
 A device contains a database which contains all the chain, a public and a private key.
@@ -17,8 +19,29 @@ A block is immutable, it can be read but can't be modified or deleted.
 
 The device is able to read blocks only created by itself.
 
+
 #### Encryption
 The encryption used is AES192 due to it's speed, lightweight and safety.
+
+
+#### Models
+##### Device
+- host (IP address)
+- publicKey (hashed random character chain)
+- privateKey (hashed random character chain)
+- lastConnection (date)
+
+##### Block
+- author (device publicKey)
+- previousHash (previous block hash)
+- hash (encrypted content)
+  - date (date)
+  - content (object)
+
+##### Database
+Collections:
+- devices
+- blocks
 
 
 ### API
@@ -32,7 +55,6 @@ POST    /validate           check block validation
 GET     /chain/check        check chain corruption
 GET     /chain/devices      get connected devices
 ```
-
 
 ### Setup
 ```bash
