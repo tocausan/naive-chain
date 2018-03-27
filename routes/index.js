@@ -5,12 +5,12 @@ chain = require('./chain');
 
 module.exports = express.Router()
 
-    .get('/', (req, res)=> {
+    .get('/', (req, res) => {
         console.log(req.connection.remoteAddress)
         console.log(req.connection.remotePort)
         console.log(req.connection.localAddress)
         console.log(req.connection.localPort)
-        res.json({});
+        res.json({a:1});
     })
     .get('/init', device.init)
 
