@@ -59,10 +59,12 @@ GET     /chain/devices      get connected devices
 ### Setup
 ```bash
 git clone [repo] [?name]
-cd [repo's name]
+cd [naive-chain | ?name]
 npm install
+bower install
 
 # start mongodb services
+brew services start mongodb #osX
 
 npm start
 ```
