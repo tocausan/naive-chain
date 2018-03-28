@@ -6,7 +6,6 @@ let express = require('express'),
     bodyParser = require('body-parser'),
     routes = require('./routes');
 
-
 module.exports = express()
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'jade')

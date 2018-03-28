@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const debug = require('debug')('naive-chain:server'),
     http = require('http'),
     app = require('../app'),
