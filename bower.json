@@ -14,5 +14,9 @@
     "public/components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "vue": "^2.5.16",
+    "axios": "^0.18.0"
+  }
 }
