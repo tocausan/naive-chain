@@ -66,6 +66,6 @@ bower install
 # start mongodb services
 brew services start mongodb #osX
 
-npm start
+npm [start | run dev]
 ```
 
