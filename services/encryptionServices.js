@@ -10,7 +10,7 @@ module.exports = {
     randomSecret(length){
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
             secret = '';
-        for (var i = 0; i < length; i++)
+        for (let i = 0; i < length; i++)
             secret += characters.charAt(Math.floor(Math.random() * characters.length));
         return secret;
     },
@@ -25,7 +25,7 @@ module.exports = {
     },
 
     encrypt(content, password) {
-        let cipher = crypto.createCipher(algorithm, password),
+        let cipher = crypto.createCipher(algorithm,),
             crypted = cipher.update(content, 'utf8', binary);
         crypted += cipher.final(binary);
         return crypted;

@@ -1,7 +1,7 @@
-      #################     * block creation
-      # api interface #     * blocks display
- ---> #################  
-|
+* api interface *
+*****************
+* block creation
+* blocks display
 |
  ---> ############          * blocks encryption / decryption
       # services #
@@ -21,3 +21,23 @@
  ---> ############## 	    * blocks transfer
       # peerToPeer #        * devices connection
       ##############
+
+
+**********
+* Models *
+**********
+* Blocks
+    - id
+    - author
+    - device
+    - content
+    - date
+    - previousHash
+    - hash
+
+* Device
+    - id
+    - name
+    - date
+    - hash
+

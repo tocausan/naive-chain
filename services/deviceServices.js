@@ -1,7 +1,6 @@
 let config = require('../config'),
-    databaseDataAcccess = require('../data-access/database'),
-    encryptionServices = require('./encryption'),
-    Device = require('../models/Device');
+    databaseDataAccess = require('../data-access').database,
+    Device = require('../models').Device;
 
 module.exports = {
 
@@ -15,7 +14,7 @@ module.exports = {
             let device = new Device()
                 .setHost(request.connection.localAddress)
                 .initKeys();
-            databaseDataAcccess.insertOneIfNotExist(config.database.collections.devices, {host: device.host}, device).then(result => {
+            databaseDataAccess.insertOneIfNotExist(config.database.collections.devices, {host: device.host}, device).then(result => {
                 resolve(result);
             }, err => {
                 reject(err);

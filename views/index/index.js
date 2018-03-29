@@ -1,16 +1,21 @@
 const app = new Vue({
     el: '.app',
     data: {
-        title: 'title'
+        title: 'Naive Chain',
+        blocks: [],
+        currentBlock: {},
+        blockValidation: null,
+        chain: null,
+        chainDevices: [],
     },
     mounted() {
-        this.initAppService().then(res => console.log(res));
-        this.getAllBlocksService().then(res => console.log(res));
-        this.getOneBlockService().then(res => console.log(res));
-        this.createBlockService().then(res => console.log(res));
-        this.validateBlockService().then(res => console.log(res));
-        this.checkChainService().then(res => console.log(res));
-        this.getChainDevicesService().then(res => console.log(res));
+        this.initAppService().then(res => console.log(res.data)).catch(e => console.log(e));
+        this.getAllBlocksService().then(res => this.blocks = res.data).catch(e => console.log(e));
+        this.getOneBlockService().then(res => this.block = res.data).catch(e => console.log(e));
+        this.createBlockService().then(res => this.block = res.data).catch(e => console.log(e));
+        this.validateBlockService().then(res => this.blockValidation = res.data).catch(e => console.log(e));
+        this.checkChainService().then(res => this.chain = res.data).catch(e => console.log(e));
+        this.getChainDevicesService().then(res => this.chainDevices = res.data).catch(e => console.log(e));
     },
     methods: {
         initAppService: () => {

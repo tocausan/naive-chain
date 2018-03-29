@@ -1,6 +1,6 @@
 let config = require('../config'),
-    dataAccessDatabase = require('../data-access/database'),
-    Block = require('../models/Block');
+    databaseDataAccess = require('../data-access').database,
+    Block = require('../models').Block;
 
 module.exports = {
 
@@ -9,7 +9,7 @@ module.exports = {
          * check chain
          * **/
         return new Promise((resolve, reject) => {
-            dataAccessDatabase.findAll(config.database.collections.blocks).then(blocks => {
+            databaseDataAccess.findAll(config.database.collections.blocks).then(blocks => {
                 let errors = [];
                 blocks.reverse().forEach((block, index) => {
                     if (index + 1 < blocks.length) {

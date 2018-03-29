@@ -1,14 +1,14 @@
 let _ = require('lodash'),
     config = require('../config'),
-    dataAccessDatabase = require('../data-access/database'),
-    Block = require('../models/Block');
+    databaseDataAccess = require('../data-access').database,
+    Block = require('../models').Block;
 
 const blocksCollection = config.database.collections.blocks;
 
 module.exports = {
 
     getBlocks: function () {
-        return dataAccessDatabase.findAll(blocksCollection).then(blocks => {
+        return databaseDataAccess.findAll(blocksCollection).then(blocks => {
             return blocks;
         });
     },
@@ -22,7 +22,7 @@ module.exports = {
                     block = new Block(data)
                         .setPreviousHash(previousHash)
                         .encrypt(secret);
-                dataAccessDatabase.insertOne(blocksCollection, block).then(result => {
+                databaseDataAccess.insertOne(blocksCollection, block).then(result => {
                     resolve(result);
                 }, err => {
                     reject(err);
@@ -34,13 +34,13 @@ module.exports = {
     },
 
     getBlock: function (hash) {
-        return dataAccessDatabase.findOne(blocksCollection, {hash: hash}).then(blocks => {
+        return databaseDataAccess.findOne(blocksCollection, {hash: hash}).then(blocks => {
             return blocks;
         });
     },
 
     getLastBlock: function () {
-        return dataAccessDatabase.findLastOne(config.database.collections.blocks);
+        return databaseDataAccess.findLastOne(config.database.collections.blocks);
     },
 
     validateBlock: function (block) {

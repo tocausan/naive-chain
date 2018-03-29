@@ -1,8 +1,6 @@
 let _ = require('lodash'),
-    crypto = require('crypto'),
     moment = require('moment'),
-    config = require('../config'),
-    encryptionServices = require('../services/encryption');
+    encryptionServices = require('../services').encryptionServices;
 
 let calculateHash = function (data) {
     let hash = crypto.createHmac('sha512', data.blockIndex.toString() + data.chain + data.previousHash);
@@ -12,40 +10,40 @@ let calculateHash = function (data) {
 module.exports = class Block {
 
     constructor(data) {
-        /**
-         * author = data.author || null
-         * previousHash = data.previousHash || null
-         * hash = encrypted | decrypted content
-         *          date = data.date || now.utc
-         *          content = data.content || {}
-         * **/
-        this.author = !_.isNil(data) && !_.isNil(data.author) ? data.author : '';
-        this.previousHash = !_.isNil(data) && !_.isNil(data.previousHash) ? data.previousHash : '';
-        this.hash = !_.isNil(data) && !_.isNil(data.hash) ? data.hash :
-        {
-            date: !_.isNil(data) && !_.isNil(data.date) ? data.date : moment.utc().format(),
-            content: !_.isNil(data) && !_.isNil(data.content) ? data.content : {}
-        };
+        this._id = !_.isNil(data) && !_.isNil(data._id) ? data._id : null;
+        this.author = !_.isNil(data) && !_.isNil(data.author) ? data.author : null;
+        this.device = !_.isNil(data) && !_.isNil(data.device) ? data.device : null;
+        this.content = !_.isNil(data) && !_.isNil(data.content) ? data.content : null;
+        this.date = !_.isNil(data) && !_.isNil(data.date) ? data.date : moment.utc().format();
+        this.previousHash = !_.isNil(data) && !_.isNil(data.previousHash) ? data.previousHash : null;
+        this.hash = !_.isNil(data) && !_.isNil(data.hash) ? data.hash : this.encryptHash();
     };
 
-    encrypt(password) {
-        this.hash = encryptionServices.encrypt(JSON.stringify(this.hash), password);
-        return this;
+    encryptHash() {
+        if (!_.isNil(this.author) && !_.isNil(this.device) && !_.isNil(this.content) && !_.isNil(this.date)) {
+            const contentToHash = [this.author, this.device, this.content, this.date],
+                encryptedHash = encryptionServices.encrypt(JSON.stringify(contentToHash), this.author);
+            console.log(encryptedHash);
+            return encryptedHash;
+        } else {
+            console.log('Block.createHash() missing data');
+            return null;
+        }
     };
 
-    decrypt(password) {
-        this.hash = JSON.parse(encryptionServices.decrypt(this.hash, password));
-        return this;
-    };
-
-    setAuthor(author){
-        this.author = author;
-        return this;
-    };
-
-    setPreviousHash(hash){
-        this.previousHash = hash;
-        return this;
+    decryptHash() {
+        if (!_.isNil(this.hash) && !_.isNil(this.author)) {
+            const decryptedHash = JSON.parse(encryptionServices.decrypt(this.hash, this.author));
+            console.log(decryptedHash);
+            this.author = decryptedHash[0];
+            this.device = decryptedHash[1];
+            this.content = decryptedHash[2];
+            this.date = decryptedHash[3];
+            return this;
+        } else {
+            console.log('Block.createHash() missing data');
+            return null;
+        }
     };
 
     static isValid(block, previousBlock) {

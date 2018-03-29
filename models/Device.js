@@ -1,14 +1,15 @@
 let _ = require('lodash'),
     moment = require('moment'),
-    encryptionServices = require('../services/encryption');
+    encryptionServices = require('../services').encryptionServices;
 
 module.exports = class Device {
 
     constructor(data) {
-        this.host = !_.isNil(data) && !_.isNil(data.host) ? data.host : [];
-        this.publicKey = !_.isNil(data) && !_.isNil(data.publicKey) ? data.key.publicKey : '';
-        this.privateKey = !_.isNil(data) && !_.isNil(data.privateKey) ? data.key.privateKey : '';
-        this.lastConnection = !_.isNil(data) && !_.isNil(data.host) ? data.host : moment.utc().format();
+        this.name = !_.isNil(data) && !_.isNil(data.name) ? data.name : null;
+        this.host = !_.isNil(data) && !_.isNil(data.host) ? data.host : null;
+        this.publicKey = !_.isNil(data) && !_.isNil(data.publicKey) ? data.key.publicKey : null;
+        this.privateKey = !_.isNil(data) && !_.isNil(data.privateKey) ? data.key.privateKey : null;
+        this.connection = !_.isNil(data) && !_.isNil(data.connection) ? data.connection : moment.utc().format();
     };
 
     initKeys() {

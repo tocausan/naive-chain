@@ -1,7 +1,8 @@
 let express = require('express'),
-    errors = require('./errors'),
-    device = require('./device'),
-    chain = require('./chain');
+    errorRoutes = require('./errorRoutes'),
+    deviceRoutes = require('./deviceRoutes'),
+    chainRoutes = require('./chainRoutes'),
+    blockRoutes = require('./blockRoutes');
 
 module.exports = express.Router()
 
@@ -9,13 +10,14 @@ module.exports = express.Router()
         res.sendfile('views/index/index.html');
     })
 
-    .post('/api/init', device.init)
-    .post('/api/block/all', chain.getBlocks)
-    .post('/api/block/one/:hash', chain.getBlock)
-    .post('/api/block/create', chain.insertBlock)
-    .post('/api/block/validate', chain.validateBlock)
-    .post('/api/chain/check', chain.checkChain)
-    .post('/api/chain/devices', chain.getDevices)
+    .post('/api/device/init', deviceRoutes.init)
 
-    .use(errors._404)
-    .use(errors.handler);
+    .post('/api/block/all', blockRoutes.getAllBlocks)
+    .post('/api/block/one/:hash', blockRoutes.getOneBlock)
+    .post('/api/block/create', blockRoutes.createOneBlock)
+    .post('/api/block/validate', blockRoutes.validateOneBlock)
+
+    .post('/api/chain/check', chainRoutes.checkChain)
+
+    .use(errorRoutes._404)
+    .use(errorRoutes.handler);
