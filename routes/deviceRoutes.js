@@ -3,9 +3,15 @@ let errorRoutes = require('./errorRoutes'),
 
 module.exports = {
 
-    init: function (req, res) {
+    isConnected: (req, res) => {
+        return deviceServices.isConnected().then(result => {
+            return res.json(result);
+        }, err => errorRoutes.handler(err, req, res));
+    },
+
+    init: (req, res) => {
         return deviceServices.init(req).then(result => {
-            res.json(result);
+            return res.json(result);
         }, err => errorRoutes.handler(err, req, res));
     }
 

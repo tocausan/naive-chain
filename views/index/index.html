@@ -10,9 +10,12 @@
 </head>
 <body>
 <div class="app">
-<nav>
-    <div class="title" v-html="title"></div>
-</nav>
+    <div class="errors">
+        <div class="error" v-for="error in errors" v-html="error"></div>
+    </div>
+    <nav>
+        <div class="title" v-html="device.connection"></div>
+    </nav>
     <section>
         <div class="blocks">
             <div class="title" v-html="'Blocks'"></div>
@@ -30,6 +33,7 @@
 
 <script src="/components/vue/dist/vue.min.js"></script>
 <script src="/components/axios/dist/axios.min.js"></script>
+<script src="/components/socket.io-client/dist/socket.io.js"></script>
 <script src="/dist/index.bundle.js"></script>
 
 </body>

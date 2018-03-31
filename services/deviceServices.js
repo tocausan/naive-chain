@@ -4,7 +4,19 @@ let config = require('../config'),
 
 module.exports = {
 
-    init: function (request) {
+    isConnected() {
+        return new Promise((resolve, reject) => {
+            databaseDataAccess.isConnected().then(databaseResult => {
+                resolve({
+                    database: databaseResult
+                });
+            }, err => {
+                reject(err);
+            });
+        });
+    },
+
+    init: (request) => {
         /**
          * - init device
          * - connect to network
@@ -13,7 +25,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             let device = new Device()
                 .setHost(request.connection.localAddress)
-                .initKeys();
+                //.initKeys();
             databaseDataAccess.insertOneIfNotExist(config.database.collections.devices, {host: device.host}, device).then(result => {
                 resolve(result);
             }, err => {
@@ -22,7 +34,7 @@ module.exports = {
         });
     },
 
-    getDevice(request){
+    getDevice: (request) => {
         return new Promise((resolve, reject) => {
             let host = request.connection.localAddress;
             databaseDataAcccess.findOne(config.database.collections.devices, {host: host}).then(result => {

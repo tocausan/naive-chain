@@ -6,21 +6,65 @@ const app = new Vue({
         currentBlock: {},
         blockValidation: null,
         chain: null,
+        device: {},
         chainDevices: [],
+        errors: [],
+
+        isConnected: false,
+        socketMessage: ''
     },
     mounted() {
-        this.initAppService().then(res => console.log(res.data)).catch(e => console.log(e));
-        this.getAllBlocksService().then(res => this.blocks = res.data).catch(e => console.log(e));
-        this.getOneBlockService().then(res => this.block = res.data).catch(e => console.log(e));
-        this.createBlockService().then(res => this.block = res.data).catch(e => console.log(e));
-        this.validateBlockService().then(res => this.blockValidation = res.data).catch(e => console.log(e));
-        this.checkChainService().then(res => this.chain = res.data).catch(e => console.log(e));
-        this.getChainDevicesService().then(res => this.chainDevices = res.data).catch(e => console.log(e));
+        const socket = io('http://localhost:3100');
+        socket.on('news',  (data) =>{
+            console.log(data);
+            socket.emit('my other event', { my: 'data' });
+        });
+
+        this.isDeviceConnectedService()
+            .then(res => {
+                console.log(res);
+                this.device.isConnected = res;
+            }, () => {
+                this.device.isConnected = false;
+                this.errors.push('Device no connected to database');
+            });
+
+        if(this.device.isConnected){
+            this.initDeviceService().then(res => console.log(res.data)).catch(e => console.log(e));
+            this.getAllBlocksService().then(res => this.blocks = res.data).catch(e => console.log(e));
+            this.getOneBlockService().then(res => this.block = res.data).catch(e => console.log(e));
+            this.createBlockService().then(res => this.block = res.data).catch(e => console.log(e));
+            this.validateBlockService().then(res => this.blockValidation = res.data).catch(e => console.log(e));
+            this.checkChainService().then(res => this.chain = res.data).catch(e => console.log(e));
+            this.getChainDevicesService().then(res => this.chainDevices = res.data).catch(e => console.log(e));
+        }
+    },
+    sockets: {
+        connect() {
+            // Fired when the socket connects.
+            this.isConnected = true;
+        },
+
+        disconnect() {
+            this.isConnected = false;
+        },
+
+        // Fired when the server sends something on the "messageChannel" channel.
+        messageChannel(data) {
+            this.socketMessage = data
+        }
     },
     methods: {
-        initAppService: () => {
+        pingServer() {
+            // Send the "pingServer" event to the server.
+            this.$socket.emit('pingServer', 'PING!')
+        },
+        isDeviceConnectedService: () => {
+            return axios.post('/api/device/connected', {});
+        },
+        initDeviceService: () => {
             return new Promise((resolve, reject) => {
-                axios.post('/api/init', {})
+                axios.post('/api/device/init', {})
                     .then(response => {
                         resolve(response)
                     })

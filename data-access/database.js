@@ -3,10 +3,10 @@ let mongoDb = require('mongodb'),
 
 module.exports = {
 
-    isConnected: function () {
+    isConnected: () => {
         return new Promise((resolve, reject) => {
             mongoDb.connect(config.database.path, (err, db) => {
-                if (err) reject(false);
+                if (err) reject(new Error('database not connected'));
                 resolve(true);
             });
         });
@@ -45,7 +45,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             mongoDb.MongoClient.connect(config.database.path, (err, db) => {
                 if (err) reject(err);
-                db.collection(collection).find().limit(1).sort({$natural:-1}).toArray().then(result => {
+                db.collection(collection).find().limit(1).sort({$natural: -1}).toArray().then(result => {
                     resolve(result[0]);
                     db.close();
                 }, error => {

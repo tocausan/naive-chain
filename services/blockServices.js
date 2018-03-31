@@ -7,17 +7,17 @@ const blocksCollection = config.database.collections.blocks;
 
 module.exports = {
 
-    getBlocks: function () {
+    getBlocks: () => {
         return databaseDataAccess.findAll(blocksCollection).then(blocks => {
             return blocks;
         });
     },
 
-    insertBlock: function (data, secret) {
+    insertBlock: (data, secret) => {
         return new Promise((resolve, reject) => {
             this.getLastBlock().then(lastBlock => {
-                if(_.isNil(data.author) || _.isNil(secret)) reject('device not initiated');
-                
+                if (_.isNil(data.author) || _.isNil(secret)) reject('device not initiated');
+
                 let previousHash = !_.isNil(lastBlock) && !_.isNil(lastBlock.hash) ? lastBlock.hash : '',
                     block = new Block(data)
                         .setPreviousHash(previousHash)
@@ -33,17 +33,17 @@ module.exports = {
         });
     },
 
-    getBlock: function (hash) {
+    getBlock: (hash) => {
         return databaseDataAccess.findOne(blocksCollection, {hash: hash}).then(blocks => {
             return blocks;
         });
     },
 
-    getLastBlock: function () {
+    getLastBlock: () => {
         return databaseDataAccess.findLastOne(config.database.collections.blocks);
     },
 
-    validateBlock: function (block) {
+    validateBlock: (block) => {
         /**
          * validate block
          * **/

@@ -19,7 +19,7 @@ module.exports = class Device {
     };
 
     setHost(ip){
-        this.host.push(ip);
+        //this.host.push(ip);
         return this;
     }
 

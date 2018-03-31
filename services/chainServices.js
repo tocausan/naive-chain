@@ -4,7 +4,7 @@ let config = require('../config'),
 
 module.exports = {
 
-    checkChain: function () {
+    checkChain: () => {
         /**
          * check chain
          * **/
@@ -28,7 +28,7 @@ module.exports = {
         });
     },
 
-    getDevices: function () {
+    getDevices: () => {
         /**
          * get connected devices
          * **/

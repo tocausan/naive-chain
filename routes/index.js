@@ -5,11 +5,15 @@ let express = require('express'),
     blockRoutes = require('./blockRoutes');
 
 module.exports = express.Router()
-
+    .use('/*', [(req, res, next) => {
+        console.log(req._parsedUrl)
+        next()
+    }])
     .get('/', (req, res) => {
         res.sendfile('views/index/index.html');
     })
 
+    .post('/api/device/connected', deviceRoutes.isConnected)
     .post('/api/device/init', deviceRoutes.init)
 
     .post('/api/block/all', blockRoutes.getAllBlocks)
