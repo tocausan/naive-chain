@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+</head>
+<body>
+<div class="app">
+    <nav>
+        <div class="title" v-html="title"></div>
+    </nav>
+    <section>
+        <div class="errors">
+            <div class="error" v-for="error in errors" v-html="error"></div>
+        </div>
+        <div class="blocks">
+            <div class="title" v-html="'Blocks'"></div>
+            <div class="list">
+                <div class="item" v-for="block in blocks" v-html="block.hash"></div>
+            </div>
+        </div>
+        <div class="currentBlock" v-html="currentBlock"></div>
+        <div class="chain" v-html="chain"></div>
+        <div class="chainDevices">
+            <div class="device" v-for="device in chainDevices" v-html="device"></div>
+        </div>
+    </section>
+</div>
+
+<script src="/components/vue/dist/vue.min.js"></script>
+<script src="/components/axios/dist/axios.min.js"></script>
+<script src="/components/socket.io-client/dist/socket.io.js"></script>
+<script src="/dist/index.bundle.js"></script>
+
+</body>
+</html>
