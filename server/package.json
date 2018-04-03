@@ -8,7 +8,8 @@
     "tsc": "rimraf ./build && tsc",
     "tsc:watch": "npm run tsc --watch",
     "dev": "concurrently --kill-others 'npm run tsc:watch' 'npm run webpack' 'nodemon'",
-    "build": "npm install && npm run tsc && npm run webpack"
+    "build": "npm install && bower install && npm run tsc && npm run webpack",
+    "minify": "rimraf ./node_modules && rimraf ./build && rimraf ./src/public/components && rimraf ./src/public/dist"
   },
   "dependencies": {
     "bower": "^1.8.4",
