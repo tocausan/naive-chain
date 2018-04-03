@@ -6,7 +6,7 @@
     "start": "node ./build/bin/www.js",
     "webpack": "webpack --config webpack.config.js && exit",
     "tsc": "rimraf ./build && tsc",
-    "tsc:watch": "npm run tsc --watch",
+    "tsc:watch": "rimraf ./build && tsc --watch",
     "dev": "concurrently --kill-others 'npm run tsc:watch' 'npm run webpack' 'nodemon'",
     "build": "npm install && sudo bower install --allow-root && npm run tsc && npm run webpack",
     "minify": "rimraf ./build && rimraf ./src/public/components && rimraf ./src/public/dist && rimraf ./node_modules"
