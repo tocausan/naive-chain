@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import * as QRCode from 'qrcode';
 import {BlockServices, EncryptionServices} from "../services";
 import {Debug} from "./Debug";
 
@@ -11,6 +12,7 @@ export interface IBlock {
     nonce: number;
     prevHash: string;
     currHash: string;
+    qrCode: string
 }
 
 export class Block implements IBlock {
@@ -32,6 +34,7 @@ export class Block implements IBlock {
     public nonce: number;
     public prevHash: string;
     public currHash: string;
+    public qrCode: string;
 
     constructor(data?: any) {
         const prevBlock = !_.isNil(data) && !_.isNil(data.prevBlock) ? data.prevBlock : null;
@@ -75,6 +78,15 @@ export class Block implements IBlock {
             ],
             hash = EncryptionServices.hash(JSON.stringify(contentToHash));
         return hash;
+    };
+
+    static createQrCode(block: Block): Promise<string> {
+        return new Promise((resolve, reject) => {
+            QRCode.toDataURL(JSON.stringify(block), {errorCorrectionLevel: 'L'}, (err, qrCode) => {
+                if (err) reject(err);
+                resolve(qrCode);
+            })
+        });
     };
 
     static createNonce(): Promise<number> {

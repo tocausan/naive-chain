@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 class Block {
     constructor(data) {
         this.index = data.index;
@@ -7,6 +9,9 @@ class Block {
         this.nonce = data.nonce;
         this.prevHash = data.prevHash;
         this.currHash = data.currHash;
+        this.qrCode = data.qrCode;
+
+        this.date = moment.unix(this.timestamp);
     }
 }
 
@@ -14,7 +19,7 @@ const app = new Vue({
     el: '.app',
     data: {
         title: 'Naive Chain',
-        user: {},
+        api: {},
         blocks: [],
         currentBlock: {},
         blockValidation: null,
@@ -30,31 +35,22 @@ const app = new Vue({
         socketMessage: ''
     },
     mounted() {
-        this.getAllBlocksService()
-            .then(res => {
-                console.log(res);
-                this.blocks = res;
+        this.getApi()
+            .then(api => {
+                console.log(api);
+                this.api = api;
             });
-        this.createBlockService()
-            .then(res => {
-                console.log(res);
-                this.block = res;
+        this.getAllBlocks()
+            .then(blocks => {
+                this.blocks = blocks.reverse();
             });
-        this.getOneBlockService('e1hexX9XYlOiwXl9BtHgU38vk3tBLVmMh1i+8oRtqzRtuOYMUb+4cnjAvNHqndvjRxo0znaiofGBiByUXAPwzw==')
-            .then(res => {
-                console.log(res);
-                this.block = res;
-            });
-        //this.validateBlockService().then(res => this.blockValidation = res.data).catch(e => console.log(e));
-        //this.checkChainService().then(res => this.chain = res.data).catch(e => console.log(e));
-        //this.getChainDevicesService().then(res => this.chainDevices = res.data).catch(e => console.log(e));
     },
     methods: {
-        getAllBlocksService: () => {
+        getApi: () => {
             return new Promise((resolve, reject) => {
-                axios.post('/api/block/all', {})
+                axios.post('/api', {})
                     .then(res => {
-                        resolve(res.data.map(i => new Block(i)))
+                        resolve(res.data);
                     })
                     .catch(e => {
                         console.log(e);
@@ -62,7 +58,19 @@ const app = new Vue({
                     });
             });
         },
-        getOneBlockService: (hash) => {
+        getAllBlocks: () => {
+            return new Promise((resolve, reject) => {
+                axios.post('/api/block/all', {})
+                    .then(res => {
+                        resolve(res.data.map(i => new Block(i)));
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        reject(e);
+                    });
+            });
+        },
+        getOneBlock: (hash) => {
             return new Promise((resolve, reject) => {
                 axios.post('/api/block/one', {hash: hash})
                     .then(res => {
@@ -74,9 +82,9 @@ const app = new Vue({
                     });
             });
         },
-        createBlockService: () => {
+        createBlock: (block) => {
             return new Promise((resolve, reject) => {
-                axios.post('/api/block/create', {block: {}})
+                axios.post('/api/block/create', {block: block})
                     .then(res => {
                         resolve(new Block(res.data));
                     })
@@ -86,39 +94,16 @@ const app = new Vue({
                     });
             });
         },
-        validateBlockService: () => {
-            return new Promise((resolve, reject) => {
-                axios.post('/api/block/validate', {block: {}})
-                    .then(response => {
-                        resolve(response)
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        reject(e);
-                    });
-            });
-        },
-        checkChainService: () => {
+        checkChain: () => {
             return new Promise((resolve, reject) => {
                 axios.post('/api/chain/check', {})
-                    .then(response => {
-                        resolve(response)
+                    .then(res => {
+                        resolve(res.data);
                     })
                     .catch(e => {
                         console.log(e);
                         reject(e);
                     });
-            });
-        },
-        socket: () => {
-            const socket = io(this.websocket.url);
-            socket.on('connection', (data) => {
-                this.websocket.isConnected = data;
-                socket.emit('connection-feedback', {id: this.user.id});
-
-                socket.on('ping', () => {
-                    socket.emit('ping-feedback', {id: this.user.id});
-                });
             });
         }
     }

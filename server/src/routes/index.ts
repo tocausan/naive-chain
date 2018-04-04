@@ -2,28 +2,29 @@ import {Router, Request, Response} from "express";
 import {ErrorRoutes} from "./errorRoutes";
 import {BlockRoutes} from "./blockRoutes";
 import {ChainRoutes} from "./chainRoutes";
-import {Middleware} from "./middlewares/corsMiddleware";
+import {CorsMiddleware} from "./middlewares";
 import * as path from 'path';
+import {Config} from "../config";
 
 export const Routes = Router()
 
-    .use('/', [Middleware.cors])
+    .use('/', [CorsMiddleware.enableCors])
 
     .get('/', (req, res) => {
+        console.log(req.connection.remoteAddress)
+        console.log(req.connection.localAddress)
         res.sendFile(path.join(__dirname, '../views/index.html'));
     })
 
-    .get('/api', (req: Request, res: Response) => {
+    .post('/api', (req: Request, res: Response) => {
         return res.json({
-            app: 'naive-chain API',
+            app: Config.app,
             routes: [
-                '/api/device/connected',
-                '/api/device/init',
-                '/api/block/all',
-                '/api/block/one/:hash',
-                '/api/block/create',
-                '/api/block/validate',
-                '/api/chain/check'
+                {path: '/api', description: 'get API infos'},
+                {path: '/api/block/all', description: 'get all blocks'},
+                {path: '/api/block/one', description: 'get one block'},
+                {path: '/api/block/create', description: 'create one block'},
+                {path: '/api/chain/check', description: 'check chain integrity'}
             ]
         });
     })

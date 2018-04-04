@@ -6,14 +6,24 @@ export const BlockServices = {
     getAllBlocks: (): Promise<Block[]> => {
         return DbClient.find(Config.database.collections.blocks)
             .then((res: any[]) => {
-                return res.map(i => new Block(i));
+                const promises: Promise<Block>[] = res.map((i: any) => {
+                    const block = new Block(i);
+                    return Block.createQrCode(block)
+                        .then((qrCode: string) => {
+                            block.qrCode = qrCode;
+                            return block;
+                        });
+                });
+
+                return Promise.all(promises).then((blocks: Block[]) => {
+                    return blocks;
+                });
             });
     },
 
     getOneBlock: (hash: string): Promise<Block> => {
         return DbClient.findOne(Config.database.collections.blocks, {currHash: hash})
             .then((res: any) => {
-                console.log(res)
                 return new Block(res);
             })
     },

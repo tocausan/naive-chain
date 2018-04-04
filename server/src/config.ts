@@ -12,8 +12,10 @@ export const Config = {
         hash: 'sha512',
         iterations: 16
     },
-    app:{
-        port: '3000',
+    app: {
+        name:'naive-chain-API',
+        ip: '192.168.1.24',
+        port: 3000,
         version: 1,
         path: '/api/1'
     },
