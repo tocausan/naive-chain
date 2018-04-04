@@ -1,7 +1,6 @@
 import {Config} from "../config";
 import {Block, DbClient} from "../models";
 
-
 export const BlockServices = {
 
     getAllBlocks: (): Promise<Block[]> => {
