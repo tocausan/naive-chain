@@ -110,18 +110,6 @@ const app = new Vue({
                     });
             });
         },
-        getChainDevicesService: () => {
-            return new Promise((resolve, reject) => {
-                axios.post('/api/chain/devices', {})
-                    .then(response => {
-                        resolve(response)
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        reject(e);
-                    });
-            });
-        },
         socket: () => {
             const socket = io(this.websocket.url);
             socket.on('connection', (data) => {

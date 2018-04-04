@@ -1,6 +1,5 @@
 import {Router, Request, Response} from "express";
 import {ErrorRoutes} from "./errorRoutes";
-import {DeviceRoutes} from "./deviceRoutes";
 import {BlockRoutes} from "./blockRoutes";
 import {ChainRoutes} from "./chainRoutes";
 import {Middleware} from "./middlewares/corsMiddleware";
@@ -28,8 +27,6 @@ export const Routes = Router()
             ]
         });
     })
-
-    .post('/api/device/init', DeviceRoutes.init)
 
     .post('/api/block/all', BlockRoutes.getAllBlocks)
     .post('/api/block/one', BlockRoutes.getOneBlock)

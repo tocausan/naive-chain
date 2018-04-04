@@ -94,4 +94,4 @@ export class Block implements IBlock {
         return block.prevHash === previousBlock.currHash;
     };
 
-};
+}
