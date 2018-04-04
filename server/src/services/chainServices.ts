@@ -28,10 +28,4 @@ export const ChainServices = {
         });
     },
 
-    getDevices: () => {
-        return new Promise((resolve, reject) => {
-            resolve({});
-        });
-    }
-
 };

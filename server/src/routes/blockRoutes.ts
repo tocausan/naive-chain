@@ -37,16 +37,5 @@ export const BlockRoutes = {
                 Debug.error(e);
                 ErrorRoutes.handler(e, req, res);
             });
-    },
-
-    validateOneBlock: (req: Request, res: Response) => {
-        BlockServices.validateBlock(req.body)
-            .then((validation: boolean) => {
-                res.json(validation);
-            })
-            .catch((e: Error) => {
-                Debug.error(e);
-                ErrorRoutes.handler(e, req, res);
-            });
     }
 };
