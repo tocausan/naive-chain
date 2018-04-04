@@ -21,7 +21,7 @@ const app = new Vue({
         title: 'Naive Chain',
         api: {},
         blocks: [],
-        currentBlock: {},
+        currentBlock: null,
         blockValidation: null,
         chain: null,
         device: {},
@@ -46,6 +46,7 @@ const app = new Vue({
             });
     },
     methods: {
+
         getApi: () => {
             return new Promise((resolve, reject) => {
                 axios.post('/api', {})
@@ -73,18 +74,6 @@ const app = new Vue({
         getOneBlock: (hash) => {
             return new Promise((resolve, reject) => {
                 axios.post('/api/block/one', {hash: hash})
-                    .then(res => {
-                        resolve(new Block(res.data));
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        reject(e);
-                    });
-            });
-        },
-        createBlock: (block) => {
-            return new Promise((resolve, reject) => {
-                axios.post('/api/block/create', {block: block})
                     .then(res => {
                         resolve(new Block(res.data));
                     })

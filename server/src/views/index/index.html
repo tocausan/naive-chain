@@ -1,12 +1,11 @@
 <!doctype html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
+    <title>naive-chain</title>
 </head>
 <body>
 <div class="app">
@@ -20,16 +19,17 @@
         <div class="blocks">
             <div class="title" v-html="'Blocks'"></div>
             <div class="list">
+                <div class="loading" v-if="blocks.length == 0">loading...</div>
                 <div class="item"
                      v-for="block in blocks">
                     <div class="qr-code">
                         <img v-bind:src="block.qrCode" class="qr-code" alt="">
                     </div>
                     <div class="infos">
-                        {{block.index}} <br>
-                        {{block.nonce}} <br>
-                        {{block.date.format('DD-MM-YYYY HH:mm:ss')}} <br>
-                        {{block.currHash}} <br>
+                        index: {{block.index}} <br>
+                        nonce: {{block.nonce}} <br>
+                        date: {{block.date.format('DD-MM-YYYY HH:mm:ss')}} <br>
+                        hash: {{block.currHash}}
                     </div>
                 </div>
             </div>
@@ -42,11 +42,10 @@
     </section>
 </div>
 
-<script src="/components/qrcode.js/qrcode.js"></script>
 <script src="/components/vue/dist/vue.min.js"></script>
 <script src="/components/axios/dist/axios.min.js"></script>
 <script src="/components/moment/moment.js"></script>
-<script src="/components/socket.io-client/dist/socket.io.js"></script>
+<!script src="/components/socket.io-client/dist/socket.io.js"><!/script>
 <script src="/dist/index.bundle.js"></script>
 
 </body>
