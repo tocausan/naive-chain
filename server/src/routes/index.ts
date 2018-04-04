@@ -34,7 +34,6 @@ export const Routes = Router()
     .post('/api/block/all', BlockRoutes.getAllBlocks)
     .post('/api/block/one', BlockRoutes.getOneBlock)
     .post('/api/block/create', BlockRoutes.createOneBlock)
-    .post('/api/block/validate', BlockRoutes.validateOneBlock)
 
     .post('/api/chain/check', ChainRoutes.checkChain)
 

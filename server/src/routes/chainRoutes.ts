@@ -14,7 +14,6 @@ export const ChainRoutes = {
                     Debug.error(e);
                     ErrorRoutes.handler(e, req, res);
                 });
-            ;
         }
 
     }
