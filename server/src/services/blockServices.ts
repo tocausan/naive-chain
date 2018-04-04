@@ -1,5 +1,5 @@
 import {Config} from "../config";
-import {Block, DbClient, Debug} from "../models";
+import {Block, DbClient} from "../models";
 
 
 export const BlockServices = {
@@ -43,7 +43,6 @@ export const BlockServices = {
                                 resolve(block);
                             })
                     });
-
                 });
         });
     }
