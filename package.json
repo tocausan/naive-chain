@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./build/bin/www.js",
+    "start": "node ./server/build/bin/www.js",
     "webpack": "webpack --config webpack.config.js && exit",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
     "dev": "concurrently --kill-others 'npm run tsc:watch' 'npm run webpack' 'nodemon'",
     "build": "npm install && bower install && npm run tsc && npm run webpack",
-    "minify": "rimraf ./build && rimraf ./node_modules"
+    "minify": "rimraf ./server/build && rimraf ./server/node_modules"
   },
   "dependencies": {
     "@types/qrcode": "^0.8.1",

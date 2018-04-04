@@ -2,42 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb910b0b-f2cf-41c4-aa0e-1c86c0ddeafb" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/www.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bower.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-access/database.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-access/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/memo.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Block.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/DbClient.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Debug.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Device.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/blockRoutes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/chainRoutes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/deviceRoutes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/errorRoutes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/middlewares/corsMiddleware.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/blockServices.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/chainServices.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/deviceServices.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/encryptionServices.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sockets/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/typings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index/index.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -63,8 +29,8 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+            <state relative-caret-position="105">
+              <caret line="7" column="17" lean-forward="true" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -95,6 +61,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="554">
               <caret line="49" selection-start-line="49" selection-end-line="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tsconfig.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tsconfig.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -161,8 +136,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/server/services/deviceServices.ts" />
-        <option value="$PROJECT_DIR$/server/sockets/index.ts" />
         <option value="$PROJECT_DIR$/server/services/encryptionServices.ts" />
         <option value="$PROJECT_DIR$/server/bin/www.ts" />
         <option value="$PROJECT_DIR$/server/data-access/database.ts" />
@@ -212,6 +185,8 @@
         <option value="$PROJECT_DIR$/readme.md" />
         <option value="$PROJECT_DIR$/client/readme.md" />
         <option value="$PROJECT_DIR$/server/readme.md" />
+        <option value="$PROJECT_DIR$/tsconfig.json" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -319,15 +294,16 @@
       <workItem from="1522686074329" duration="23186000" />
       <workItem from="1522770971883" duration="4629000" />
       <workItem from="1522779137520" duration="10276000" />
-      <workItem from="1522790376402" duration="47865000" />
+      <workItem from="1522790376402" duration="48102000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144713000" />
+    <option name="totallyTimeSpent" value="144950000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TypeScript" order="8" weight="0.32876712" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20069444" />
@@ -367,16 +343,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server/src/data-access/database.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/src/routes/deviceRoutes.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -772,10 +738,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tsconfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+        <state relative-caret-position="105">
+          <caret line="7" column="17" lean-forward="true" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>
