@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import {BlockServices, EncryptionServices} from "../services";
+import {Debug} from "./Debug";
 
 export interface IBlock {
     index: number;
@@ -33,17 +34,34 @@ export class Block implements IBlock {
     public currHash: string;
 
     constructor(data?: any) {
-        this.index = !_.isNil(data) && !_.isNil(data.index) ? data.index : 0;
+        const prevBlock = !_.isNil(data) && !_.isNil(data.prevBlock) ? data.prevBlock : null;
+        this.index = !_.isNil(data) && !_.isNil(data.index) ? data.index : this.setIndex(prevBlock);
         this.timestamp = !_.isNil(data) && !_.isNil(data.timestamp) ? data.timestamp : moment.utc().unix();
         this.data = !_.isNil(data) && !_.isNil(data.data) ? data.data : {};
         this.target = !_.isNil(data) && !_.isNil(data.target) ? data.target : this.setTarget();
         this.nonce = !_.isNil(data) && !_.isNil(data.nonce) ? data.nonce : 0;
-        this.prevHash = !_.isNil(data) && !_.isNil(data.prevHash) ? data.prevHash : '0000000000';
+        this.prevHash = !_.isNil(data) && !_.isNil(data.prevHash) ? data.prevHash : this.setPrevHash(prevBlock);
         this.currHash = !_.isNil(data) && !_.isNil(data.currHash) ? data.currHash : this.encryptCurrHash();
     };
 
+    setIndex(prevBlock: Block): number {
+        if (prevBlock) {
+            return prevBlock.index + 1;
+        } else {
+            return 0;
+        }
+    }
+
     setTarget(): number {
         return Math.ceil(this.index);
+    }
+
+    setPrevHash(prevBlock: Block): string {
+        if (prevBlock) {
+            return prevBlock.currHash;
+        } else {
+            return '00000';
+        }
     }
 
     encryptCurrHash(): string {
@@ -66,7 +84,7 @@ export class Block implements IBlock {
                 let nonce;
                 do {
                     nonce = Math.round(Math.random() * 100000000000000000000000000000000);
-                    console.log(nonce);
+                    Debug.data('nonce try: ' + nonce);
                 } while (nonceList.indexOf(nonce) > -1);
                 return nonce;
             });

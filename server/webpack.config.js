@@ -16,8 +16,8 @@ module.exports = {
         /^[a-z\-0-9]+$/
     ],
     output: {
-        path: appRoot.path + '/src/public/dist',
-        filename: '[name].bundle.js'
+        path: appRoot.path + '/build',
+        filename: 'public/dist/[name].bundle.js'
     },
     resolve: {
         extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
@@ -27,22 +27,41 @@ module.exports = {
         ]
     },
     devServer: {
-        contentBase: appRoot.path + '/views',
+        contentBase: appRoot.path + '/src',
         hot: true
     },
     module: {
         rules: [
             {
-                test: /\.(html)$/,
-                use: {
-                    loader: 'html-loader',
-                    options: {
-                        attrs: [':data-src'],
-                        minimize: true,
-                        removeComments: true,
-                        collapseWhitespace: true
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '/public/dist/img/[name].[ext]'
+                        }
                     }
-                }
+                ]
+            },
+            {
+                test: /\.(html)$/,
+                use: [
+                    {
+                        loader: 'html-loader',
+                        options: {
+                            attrs: [':data-src'],
+                            minimize: true,
+                            removeComments: true,
+                            collapseWhitespace: true
+                        }
+                    },
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '/views/[name].[ext]'
+                        }
+                    }
+                ]
             },
             {
                 test: /\.scss$/,
@@ -54,9 +73,14 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
-                exclude: appRoot.path + '/public/components',
                 use: [
-                    {loader: 'ts-loader'}
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            name: 'public/dist/[name].[ext]'
+                        }
+                    },
+
                 ]
             }
         ]

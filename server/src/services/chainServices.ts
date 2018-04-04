@@ -1,27 +1,30 @@
 import {Config} from "../config";
-import {DatabaseDataAccess} from '../data-access';
-import {Block} from "../models";
+import {Block, DbClient} from "../models";
 
 export const ChainServices = {
 
-    checkChain: () => {
+    checkChain: (): Promise<boolean> => {
         return new Promise((resolve, reject) => {
-            DatabaseDataAccess.findAll(Config.database.collections.blocks).then((blocks: Block[]) => {
-                let errors: any[] = [];
-                blocks.reverse().forEach((block, index) => {
-                    if (index + 1 < blocks.length) {
-                        let isValid = Block.isValid(block, blocks[index + 1]);
-                        if (!isValid) {
-                            errors.push(block);
+            return DbClient.find(Config.database.collections.blocks)
+                .then((res: any[]) => {
+                    let errors: any[] = [];
+                    const blocks = res.map(i => new Block(i));
+
+                    blocks.reverse().forEach((block, index) => {
+                        if (index + 1 < blocks.length) {
+                            let isValid = Block.isValid(block, blocks[index + 1]);
+                            if (!isValid) {
+                                errors.push(block);
+                            }
                         }
+                    });
+
+                    if (errors.length === 0) {
+                        resolve(true);
+                    } else {
+                        reject(new Error('Corrupted block found: ' + errors.join(',')));
                     }
                 });
-                if (errors.length === 0) {
-                    resolve({success: 'The chain isn\'t corrupted'});
-                } else {
-                    reject({error: 'Corrupted block found: ' + errors.join(',')});
-                }
-            });
         });
     },
 

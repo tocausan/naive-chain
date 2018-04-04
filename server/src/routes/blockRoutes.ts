@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {ErrorRoutes} from './errorRoutes';
 import {BlockServices} from '../services';
-import {Block} from "../models";
+import {Block, Debug} from "../models";
 
 export const BlockRoutes = {
 
@@ -9,26 +9,44 @@ export const BlockRoutes = {
         BlockServices.getAllBlocks()
             .then((blocks: Block[]) => {
                 res.json(blocks);
+            })
+            .catch((e: Error) => {
+                Debug.error(e);
+                ErrorRoutes.handler(e, req, res);
             });
     },
 
     getOneBlock: (req: Request, res: Response) => {
-        BlockServices.getOneBlock(req.params.hash).then((block: Block) => {
-            res.json(block);
-        }, (e: Error) => ErrorRoutes.handler(e, req, res));
+        BlockServices.getOneBlock(req.body.hash)
+            .then((block: Block) => {
+                res.json(block);
+            })
+            .catch((e: Error) => {
+                Debug.error(e);
+                ErrorRoutes.handler(e, req, res);
+            });
     },
 
     createOneBlock: (req: Request, res: Response) => {
         console.log(req.body.block);
-        BlockServices.createOneBlock(req.body.block).then((block: Block) => {
-            console.log(block);
-            res.json(block);
-        }, (e: Error) => ErrorRoutes.handler(e, req, res));
+        BlockServices.createOneBlock(req.body.block)
+            .then((block: Block) => {
+                res.json(block);
+            })
+            .catch((e: Error) => {
+                Debug.error(e);
+                ErrorRoutes.handler(e, req, res);
+            });
     },
 
     validateOneBlock: (req: Request, res: Response) => {
-        BlockServices.validateBlock(req.body).then((block: Block) => {
-            res.json(block);
-        }, (e: Error) => ErrorRoutes.handler(e, req, res));
+        BlockServices.validateBlock(req.body)
+            .then((validation: boolean) => {
+                res.json(validation);
+            })
+            .catch((e: Error) => {
+                Debug.error(e);
+                ErrorRoutes.handler(e, req, res);
+            });
     }
 };

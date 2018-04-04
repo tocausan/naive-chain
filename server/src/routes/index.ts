@@ -4,13 +4,14 @@ import {DeviceRoutes} from "./deviceRoutes";
 import {BlockRoutes} from "./blockRoutes";
 import {ChainRoutes} from "./chainRoutes";
 import {Middleware} from "./middlewares/corsMiddleware";
+import * as path from 'path';
 
 export const Routes = Router()
 
     .use('/', [Middleware.cors])
 
     .get('/', (req, res) => {
-        res.sendFile('views/index/index.html');
+        res.sendFile(path.join(__dirname, '../views/index.html'));
     })
 
     .get('/api', (req: Request, res: Response) => {
@@ -28,11 +29,10 @@ export const Routes = Router()
         });
     })
 
-    .post('/api/device/connected', DeviceRoutes.isConnected)
     .post('/api/device/init', DeviceRoutes.init)
 
     .post('/api/block/all', BlockRoutes.getAllBlocks)
-    .post('/api/block/one/:hash', BlockRoutes.getOneBlock)
+    .post('/api/block/one', BlockRoutes.getOneBlock)
     .post('/api/block/create', BlockRoutes.createOneBlock)
     .post('/api/block/validate', BlockRoutes.validateOneBlock)
 

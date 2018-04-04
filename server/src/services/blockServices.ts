@@ -1,52 +1,50 @@
 import {Config} from "../config";
-import {DatabaseDataAccess} from '../data-access';
-import {Block} from "../models";
+import {Block, DbClient, Debug} from "../models";
 
 
 export const BlockServices = {
 
-    getAllBlocks: () => {
-        return DatabaseDataAccess.findAll(Config.database.collections.blocks).then((blocks: Block[]) => {
-            return blocks;
-        });
-    },
-
-    getOneBlock: (hash: string) => {
-        return DatabaseDataAccess.findOne(Config.database.collections.blocks, {hash: hash}).then((block: Block) => {
-            return block;
-        });
-    },
-
-    createOneBlock: (data: any) => {
-        return new Promise((resolve, reject) => {
-            //this.getLastBlock().then(lastBlock => {
-            Block.createNonce().then((nonce: number) => {
-                data.prevBlock = null;
-                data.nonce = nonce;
+    getAllBlocks: (): Promise<Block[]> => {
+        return DbClient.find(Config.database.collections.blocks)
+            .then((res: any[]) => {
+                return res.map(i => new Block(i));
             });
+    },
 
-            const block = new Block(data);
-            console.log(block);
+    getOneBlock: (hash: string): Promise<Block> => {
+        return DbClient.findOne(Config.database.collections.blocks, {currHash: hash})
+            .then((res: any) => {
+                console.log(res)
+                return new Block(res);
+            })
+    },
 
-            DatabaseDataAccess.insertOne(Config.database.collections.blocks, block).then(result => {
-                resolve(result);
-            }, (e: Error) => {
-                reject(e);
+    getLastBlock: (): Promise<Block> => {
+        return DbClient.findLastOne(Config.database.collections.blocks)
+            .then((res: any) => {
+                return new Block(res);
             });
-            //}, err => reject(err));
-        });
     },
 
-    getLastBlock: () => {
-        return DatabaseDataAccess.findLastOne(Config.database.collections.blocks)
-            .then((block: Block) => {
-                console.log(block)
-            }, (e: Error) => console.log(e));
-    },
-
-    validateBlock: (block: Block) => {
+    createOneBlock: (data: any): Promise<Block> => {
         return new Promise((resolve, reject) => {
-            resolve(true);
+            DbClient.findLastOne(Config.database.collections.blocks)
+                .then((res: any) => {
+                    if (res) console.log('no previous block, genesis block creation');
+
+                    const lastBlock = new Block(res);
+                    return Block.createNonce().then((nonce: number) => {
+                        data.prevBlock = lastBlock;
+                        data.nonce = nonce;
+
+                        const block = new Block(data);
+                        return DbClient.insertOne(Config.database.collections.blocks, block)
+                            .then(() => {
+                                resolve(block);
+                            })
+                    });
+
+                });
         });
     }
 

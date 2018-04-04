@@ -2,34 +2,20 @@ const chalk = require('chalk');
 
 export class Debug {
 
-    static checkJson(data: any) {
-        try {
-            return JSON.stringify(JSON.parse(data));
-        }
-        catch (e) {
-            console.log('invalid json');
-            console.log(e);
-        }
-    }
-
     static info(data: any) {
-        const message = this.checkJson(data);
-        console.log(chalk.greenBright(chalk.underline.dim('info'), message));
+        console.log(chalk.greenBright(chalk.underline.dim('info'), data));
     };
 
     static data(data: any) {
-        const message = this.checkJson(data);
-        console.log(chalk.blueBright(chalk.underline.dim('data'), message));
+        console.log(chalk.blueBright(chalk.underline.dim('data'), data));
     };
 
     static warn(data: any) {
-        const message = this.checkJson(data);
-        console.log(chalk.yellowBright(chalk.underline.dim('warn'), message));
+        console.log(chalk.yellowBright(chalk.underline.dim('warn'), data));
     };
 
     static error(data: any) {
-        const message = this.checkJson(data);
-        console.log(chalk.redBright(chalk.underline.dim('error'), message));
+        console.log(chalk.redBright(chalk.underline.dim('error'), data));
     };
 
 };

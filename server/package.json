@@ -5,11 +5,11 @@
   "scripts": {
     "start": "node ./build/bin/www.js",
     "webpack": "webpack --config webpack.config.js && exit",
-    "tsc": "rimraf ./build && tsc",
-    "tsc:watch": "rimraf ./build && tsc --watch",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch",
     "dev": "concurrently --kill-others 'npm run tsc:watch' 'npm run webpack' 'nodemon'",
-    "build": "npm install && sudo bower install --allow-root && npm run tsc && npm run webpack",
-    "minify": "rimraf ./build && rimraf ./src/public/components && rimraf ./src/public/dist && rimraf ./node_modules"
+    "build": "npm install && bower install && npm run tsc && npm run webpack",
+    "minify": "rimraf ./build && rimraf ./node_modules"
   },
   "dependencies": {
     "bower": "^1.8.4",
@@ -19,7 +19,7 @@
     "express": "^4.16.3",
     "html-loader": "^0.5.5",
     "jade": "^1.11.0",
-    "mongoose": "^5.0.12",
+    "mongodb": "^2.2.33",
     "nodemon": "^1.17.3",
     "npm-run-all": "^4.1.2",
     "qrcode": "^1.2.0",
@@ -52,6 +52,7 @@
     "app-root-path": "^2.0.1",
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.5.1",
+    "file-loader": "^1.1.11",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.2.0",
     "morgan": "^1.9.0",

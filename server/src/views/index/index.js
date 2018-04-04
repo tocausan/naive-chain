@@ -1,3 +1,15 @@
+class Block {
+    constructor(data) {
+        this.index = data.index;
+        this.timestamp = data.timestamp;
+        this.data = data.data;
+        this.target = data.target;
+        this.nonce = data.nonce;
+        this.prevHash = data.prevHash;
+        this.currHash = data.currHash;
+    }
+}
+
 const app = new Vue({
     el: '.app',
     data: {
@@ -18,61 +30,46 @@ const app = new Vue({
         socketMessage: ''
     },
     mounted() {
-
-        this.isDeviceConnectedService()
+        this.getAllBlocksService()
             .then(res => {
                 console.log(res);
-                this.device.isConnected = res;
-
-                //this.initDeviceService().then(res => console.log(res.data)).catch(e => console.log(e));
-                this.getAllBlocksService().then(res => {
-                    console.log(res.data);
-                    this.blocks = res.data;
-                }).catch(e => console.log(e));
-                //this.getOneBlockService().then(res => this.block = res.data).catch(e => console.log(e));
-                this.createBlockService().then(res => this.block = res.data).catch(e => console.log(e));
-                //this.validateBlockService().then(res => this.blockValidation = res.data).catch(e => console.log(e));
-                this.checkChainService().then(res => this.chain = res.data).catch(e => console.log(e));
-                this.getChainDevicesService().then(res => this.chainDevices = res.data).catch(e => console.log(e));
-            }, () => {
-                this.device.isConnected = false;
-                this.errors.push('Device no connected to database');
+                this.blocks = res;
             });
+        this.createBlockService()
+            .then(res => {
+                console.log(res);
+                this.block = res;
+            });
+        this.getOneBlockService('e1hexX9XYlOiwXl9BtHgU38vk3tBLVmMh1i+8oRtqzRtuOYMUb+4cnjAvNHqndvjRxo0znaiofGBiByUXAPwzw==')
+            .then(res => {
+                console.log(res);
+                this.block = res;
+            });
+        //this.validateBlockService().then(res => this.blockValidation = res.data).catch(e => console.log(e));
+        //this.checkChainService().then(res => this.chain = res.data).catch(e => console.log(e));
+        //this.getChainDevicesService().then(res => this.chainDevices = res.data).catch(e => console.log(e));
     },
     methods: {
-
-        isDeviceConnectedService: () => {
-            return axios.post('/api/device/connected', {});
-        },
-        initDeviceService: () => {
-            return new Promise((resolve, reject) => {
-                axios.post('/api/device/init', {})
-                    .then(response => {
-                        resolve(response)
-                    })
-                    .catch(e => {
-                        reject(e);
-                    });
-            });
-        },
         getAllBlocksService: () => {
             return new Promise((resolve, reject) => {
                 axios.post('/api/block/all', {})
-                    .then(response => {
-                        resolve(response)
+                    .then(res => {
+                        resolve(res.data.map(i => new Block(i)))
                     })
                     .catch(e => {
+                        console.log(e);
                         reject(e);
                     });
             });
         },
-        getOneBlockService: () => {
+        getOneBlockService: (hash) => {
             return new Promise((resolve, reject) => {
-                axios.post('/api/block/one', {hash: ''})
-                    .then(response => {
-                        resolve(response)
+                axios.post('/api/block/one', {hash: hash})
+                    .then(res => {
+                        resolve(new Block(res.data));
                     })
                     .catch(e => {
+                        console.log(e);
                         reject(e);
                     });
             });
@@ -80,10 +77,11 @@ const app = new Vue({
         createBlockService: () => {
             return new Promise((resolve, reject) => {
                 axios.post('/api/block/create', {block: {}})
-                    .then(response => {
-                        resolve(response)
+                    .then(res => {
+                        resolve(new Block(res.data));
                     })
                     .catch(e => {
+                        console.log(e);
                         reject(e);
                     });
             });
@@ -95,6 +93,7 @@ const app = new Vue({
                         resolve(response)
                     })
                     .catch(e => {
+                        console.log(e);
                         reject(e);
                     });
             });
@@ -106,6 +105,7 @@ const app = new Vue({
                         resolve(response)
                     })
                     .catch(e => {
+                        console.log(e);
                         reject(e);
                     });
             });
@@ -117,6 +117,7 @@ const app = new Vue({
                         resolve(response)
                     })
                     .catch(e => {
+                        console.log(e);
                         reject(e);
                     });
             });
