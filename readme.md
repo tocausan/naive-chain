@@ -51,8 +51,8 @@ GET     /chain/check            check chain integrity
 ### Setup
 ```bash
 # clone the repo
-git clone [repo] [?name]
-cd [naive-chain | ?name]
+git clone [repo] [name?]
+cd [naive-chain | name?]
 
 # build server
 npm run build
