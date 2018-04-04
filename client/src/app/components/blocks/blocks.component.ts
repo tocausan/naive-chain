@@ -15,7 +15,7 @@ export class BlocksComponent implements OnInit {
   constructor(private blockServices: BlockServices) {
     blockServices.getAllBlocks()
       .subscribe((blocks) => {
-        this.blocks = blocks;
+        this.blocks = blocks.reverse();
       })
 
   }
