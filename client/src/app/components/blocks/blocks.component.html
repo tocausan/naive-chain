@@ -1,0 +1,14 @@
+<div class="title">Blocks</div>
+<div class="blocks">
+  <div class="block" *ngFor="let block of blocks">
+    <div class="qr-code">
+      <img [src]="block.qrCode" [alt]="block.currHash">
+    </div>
+    <div class="infos">
+      index: {{block.index}}<br>
+      nonce: {{block.nonce}}<br>
+      timestamp: {{block.timestamp}}<br>
+      hash: {{block.currHash}}<br>
+    </div>
+  </div>
+</div>
