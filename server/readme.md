@@ -1,4 +1,4 @@
-# Naive Chain
+# Naive Chain | Server
 
 [![Waffle.io](https://img.shields.io/badge/Status-Development-A44437.svg?style=flat-square)]()
 
@@ -25,43 +25,36 @@ The encryption used is AES192 due to it's speed, lightweight and safety.
 
 
 #### Models
-##### Device
-- host (IP address)
-- publicKey (hashed random character chain)
-- privateKey (hashed random character chain)
-- lastConnection (date)
-
 ##### Block
-- author (device publicKey)
-- previousHash (previous block hash)
-- hash (encrypted content)
-  - date (date)
-  - content (object)
+- index     : number
+- timestamp : any
+- data      : number
+- nonce     : string
+- prevHash  : string
+- currHash  : string
+- qrCode    : string
 
 ##### Database
 Collections:
-- devices
 - blocks
 
 
 ### API
 ```txt
-GET     /                   landing
-GET     /init               device initialisation
-GET     /blocks             get all blocks
-POST    /blocks             insert a block
-GET     /block/:hash        get a block by hash
-POST    /validate           check block validation
-GET     /chain/check        check chain corruption
-GET     /chain/devices      get connected devices
+GET     /api                    API infos
+GET     /api/block/all          get all blocks
+POST    /api/block/one          get one block
+GET     /api/block/create       create one block
+GET     /chain/check            check chain integrity
 ```
 
 ### Setup
 ```bash
-git clone [repo] [?name]
-cd [naive-chain | ?name]
-npm install
-bower install
+# go to server folder
+cd server
+
+# build server
+npm run build
 
 # start mongodb services
 brew services start mongodb #osX
